@@ -31,8 +31,18 @@ Accounts.onCreateUser(function(options, user) {
 
 console.log("Set name:"+setname);
 
-    // Get 1 "rare"
-    cards = CardPool.find({cardSetName: setname, rarity: "Rare"}).fetch();
+	cards = [];
+
+    // Get 1 "Rare" / "Mythic Rare"  (1 in 8 rares is mythic)
+	if (Math.random() > 0.875) {
+console.log("MYTHIC!");
+		cards = CardPool.find({cardSetName: setname, rarity: "Mythic Rare"}).fetch();
+	}
+
+	// If we didn't roll a mythic or there are no mythics, get a rare.
+    if (cards.length == 0) {
+	   cards = CardPool.find({cardSetName: setname, rarity: "Rare"}).fetch();
+	}
 
 console.log("  Selecting rares from pool of: "+cards.length);
 
@@ -47,7 +57,7 @@ console.log("  Selecting rares from pool of: "+cards.length);
 		}
 	}
 
-    // Get 3 "uncommon"
+    // Get 3 "Uncommon"
     cards = CardPool.find({cardSetName: setname, rarity: "Uncommon"}).fetch();
 
 console.log("  Selecting uncommons from pool of: "+cards.length);
@@ -63,7 +73,7 @@ console.log("  Selecting uncommons from pool of: "+cards.length);
 		}
 	}
 
-    // Get 11 "common"
+    // Get 11 "Common"
     cards = CardPool.find({cardSetName: setname, rarity: "Common"}).fetch();
 
 console.log("  Selecting commons from pool of: "+cards.length);
