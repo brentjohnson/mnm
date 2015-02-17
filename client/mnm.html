@@ -7,13 +7,23 @@
 
   {{> loginButtons}}
 
-<br />
+	<div class="result-table">
       {{#each cardpool}}
         {{> card}}
       {{/each}}
-
+    </div>
 </body>
 
 <template name="card">
-  <img src="http://api.mtgdb.info/content/card_images/{{id}}.jpeg" width="100">
+	<div class="result-row">
+		<div class="result-cell">
+			{{name}}
+		</div>
+		<div class="result-cell">
+			{{cardSetName}}
+		</div>
+		<div class="result-cell">
+			{{rarity}}
+		</div>
+	</div>
 </template>

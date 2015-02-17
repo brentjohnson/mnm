@@ -1,1 +1,21 @@
 /* CSS declarations go here */
+.result-table {
+    display:table;
+    border-collapse:collapse;
+}
+         
+.result-row {
+    display:table-row;
+}
+         
+.result-cell {
+    display:table-cell;
+}
+         
+#primary-nav, #secondary-nav {
+    width:20%;
+}
+         
+#content {
+    width:60%;
+}
