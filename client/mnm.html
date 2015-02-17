@@ -1,0 +1,19 @@
+<head>
+  <title>mnm</title>
+</head>
+
+<body>
+  <h1>Welcome to Monday Night Magic!</h1>
+
+  {{> loginButtons}}
+
+<br />
+      {{#each cardpool}}
+        {{> card}}
+      {{/each}}
+
+</body>
+
+<template name="card">
+  <img src="http://api.mtgdb.info/content/card_images/{{id}}.jpeg" width="100">
+</template>
