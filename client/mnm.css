@@ -12,10 +12,12 @@
     display:table-cell;
 }
          
-#primary-nav, #secondary-nav {
-    width:20%;
+#cardcollection {
+	float:left;
+	background:#cc9;
 }
-         
-#content {
-    width:60%;
+
+#deck {
+	float:right;
+	background:#99c;
 }
