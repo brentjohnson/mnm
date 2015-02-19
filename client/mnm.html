@@ -7,19 +7,23 @@
 
   {{> loginButtons}}
 
-	<img id="zoom-image" style="position: fixed; right: 20px; top: 40px;">
-
+  <div></div>
+  
 	<div id="cardcollection" class="result-table">
+	  Card Collection
       {{#each cardpool}}
         {{> card}}
       {{/each}}
     </div>
 
 	<div id="deck" class="result-table">
+	  Deck List
       {{#each decklist}}
         {{> card}}
       {{/each}}
     </div>
+
+	<img id="zoom-image" style="position: fixed; right: 20px; top: 40px;">
 
     <script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
