@@ -10,14 +10,14 @@
   <div></div>
   
 	<div id="cardcollection" class="result-table">
-	  Card Collection
+	  Card Collection ({{collectionsize}})
       {{#each cardpool}}
         {{> card}}
       {{/each}}
     </div>
 
 	<div id="deck" class="result-table">
-	  Deck List
+	  Deck List ({{decksize}})
       {{#each decklist}}
         {{> card}}
       {{/each}}

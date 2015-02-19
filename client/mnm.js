@@ -6,6 +6,12 @@ Template.body.helpers({
     },
     decklist: function () {
     	return DeckCollection.find({user: Meteor.userId()}, {sort: {name: 1, id: 1}});
+    },
+    decksize: function () {
+    	return DeckCollection.find({user: Meteor.userId()}, {sort: {name: 1, id: 1}}).count();
+    },
+    collectionsize: function () {
+    	return CardCollection.find({user: Meteor.userId()}, {sort: {name: 1, id: 1}}).count();
     }
 });
 
