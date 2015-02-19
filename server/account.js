@@ -8,9 +8,9 @@ Accounts.onCreateUser(function(options, user) {
   _.each(["Forest","Swamp","Island","Plains","Mountain"], function(cardname){
 
     // Get array of "Forest"
-    cards = CardPool.find({name: cardname}).fetch();
+    cards = CardPool.find({name: cardname, cardSetName: "Limited Edition Alpha"}).fetch();
 
-    for (i=0; i<30; i++) {
+    for (i=0; i<24; i++) {
 
 	    card = _.omit(Random.choice(cards), "_id");
 
@@ -22,10 +22,14 @@ Accounts.onCreateUser(function(options, user) {
   });
 
   // Add one "pack" (1 rare, 3 uncommon, 11 common) from each set.
-	  sets = _.uniq(CardPool.find({}, {fields: {cardSetName: true}
+
+/*	  sets = _.uniq(CardPool.find({}, {fields: {cardSetName: true}
 		}).fetch().map(function(x) {
 		    return x.cardSetName;
 		}), false);
+*/
+
+ sets = ["Limited Edition Alpha","Limited Edition Alpha","Limited Edition Alpha","Limited Edition Alpha","Limited Edition Alpha","Limited Edition Alpha","Limited Edition Alpha","Limited Edition Alpha","Limited Edition Alpha","Limited Edition Alpha"];
 
   _.each(sets, function(setname){
 

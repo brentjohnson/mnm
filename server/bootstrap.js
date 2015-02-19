@@ -1,3 +1,5 @@
+CardPool = new Meteor.Collection('cardpool');
+
 // if the database is empty on server start, create some sample data.
 Meteor.startup(function () {
 
@@ -21,13 +23,16 @@ Meteor.startup(function () {
 		var sets = JSON.parse(result.content);
 		console.log("response received.");
 
+		// Override for now
 		_.each(sets, function(set) {
+
+if (set.name == "Limited Edition Alpha") {
 
 			if (set.type == "Core" || set.type == "Expansion") {
 
 				console.log("Loading: "+set.name);
 
-				cardsurl = "http://api.mtgdb.info/cards/?cardSetName="+set.name;
+				cardsurl = "http://api.mtgdb.info/cards/?fields=id,name,cardSetName,type,rarity&cardSetName="+set.name;
 
 				var cardsresult = Meteor.http.get(cardsurl, {timeout:30000});
 
@@ -37,9 +42,9 @@ Meteor.startup(function () {
 				      CardPool.insert(card);
 				});
 
-
-
 			}
+
+}
 		});
 
 
