@@ -1,4 +1,4 @@
-Template.body.helpers({
+Template.deck.helpers({
 
 	 cardpool: function () {
         // Otherwise, return all of the tasks
@@ -15,7 +15,7 @@ Template.body.helpers({
     }
 });
 
-Template.body.events({
+Template.deck.events({
     "click #cardcollection .result-row": function () {
       // Set the checked property to the opposite of its current value
       DeckCollection.insert(this);
