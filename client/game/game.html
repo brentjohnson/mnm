@@ -20,17 +20,39 @@ TODO: Measure acutal height of 100 cards stack.
 
 		var renderer = new THREE.WebGLRenderer();
 		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.setClearColor( 0x77C73E );
 		document.body.appendChild( renderer.domElement );
 
 		var geometry = new THREE.BoxGeometry( 62, 88, 0.4 );
 
+  		var count = 0;
+
+
+var query = DeckCollection.find({user: Meteor.userId()});
+var handle = query.observeChanges({
+  added: function (id, card) {
+
+  		count++;
+
+    console.log("Adding: "+card.name);
+
 		// material
 		var material = new THREE.MeshLambertMaterial({
-			map: THREE.ImageUtils.loadTexture('http://api.mtgdb.info/content/card_images/293.jpeg')
+			map: THREE.ImageUtils.loadTexture('http://api.mtgdb.info/content/card_images/'+card.id+'.jpeg')
 		});
 
 		cube = new THREE.Mesh( geometry, material );
+//		cube.rotation.x = Random.fraction();
+//		cube.rotation.y = 0.03;
+		cube.rotation.z = Random.fraction()-0.5;	
+
+		cube.position.x = Random.fraction()*500-250;
+		cube.position.y = Random.fraction()*200-100;
+		cube.position.z = count*.01;
+
 		scene.add( cube );
+  }
+});
 
 		var light = new THREE.AmbientLight( 0xffffff ); // soft white light
 		scene.add( light );
@@ -42,8 +64,8 @@ TODO: Measure acutal height of 100 cards stack.
 
 			requestAnimationFrame( render );
 
-			cube.rotation.x += 0.01;
-			cube.rotation.y += 0.02;
+//			cube.rotation.x += 0.01;
+//			cube.rotation.y += 0.02;
 
 			renderer.render( scene, camera );
 		}
