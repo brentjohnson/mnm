@@ -1,0 +1,46 @@
+<template name="deck">
+
+  <h1>Deck Editor</h1>
+
+  {{> loginButtons}}
+
+  <div></div>
+  
+	<div id="cardcollection" class="result-table">
+	  Card Collection ({{collectionsize}})
+      {{#each cardpool}}
+        {{> card}}
+      {{/each}}
+    </div>
+
+	<div id="deck" class="result-table">
+	  Deck List ({{decksize}}) <a href="/game">PLAY!</a>
+      {{#each decklist}}
+        {{> card}}
+      {{/each}}
+    </div>
+
+	<img id="zoom-image" style="position: fixed; right: 20px; top: 40px;">
+
+</template>
+
+
+
+
+
+<template name="card">
+  <div class="result-row" data-image="http://api.mtgdb.info/content/card_images/{{id}}.jpeg" onmouseover="$('#zoom-image').attr('src', $(this).attr('data-image'));">
+    <div class="result-cell">
+      {{name}}
+    </div>
+    <div class="result-cell">
+      {{cardSetName}}
+    </div>
+    <div class="result-cell">
+      {{type}}
+    </div>
+    <div class="result-cell">
+      {{rarity}}
+    </div>
+  </div>
+</template>

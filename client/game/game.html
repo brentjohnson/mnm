@@ -1,0 +1,44 @@
+<template name="game">
+ Game
+ 		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+
+
+	<script>
+/*
+Card size 63mm x 88mm x 0.305mm (online)
+
+TODO: Measure acutal height of 100 cards stack.
+*/
+		var scene = new THREE.Scene();
+		var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+		var renderer = new THREE.WebGLRenderer();
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+
+		var geometry = new THREE.BoxGeometry( 62, 88, 10.4 );
+
+		// material
+		var material = new THREE.MeshLambertMaterial({
+			map: THREE.ImageUtils.loadTexture('http://api.mtgdb.info/content/card_images/1.jpeg')
+		});
+
+		var cube = new THREE.Mesh( geometry, material );
+		scene.add( cube );
+
+		camera.position.z = 300;
+
+		function render() {
+			requestAnimationFrame( render );
+
+			cube.rotation.x += 0.01;
+			cube.rotation.y += 0.02;
+
+			renderer.render( scene, camera );
+		}
+		render();
+	</script>
+</template>
