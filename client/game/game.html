@@ -4,6 +4,9 @@
 			canvas { width: 100%; height: 100% }
 		</style>
 
+<div id="game">
+</div>
+
 	<script>
 /*
 Card size 63mm x 88mm x 0.305mm (online)
@@ -19,7 +22,12 @@ TODO: Measure acutal height of 100 cards stack.
 		var renderer = new THREE.WebGLRenderer();
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		renderer.setClearColor( 0x77C73E );
-		document.body.appendChild( renderer.domElement );
+
+		var $div = $('#game');
+
+		if ($div.children().length === 0 ) {
+			$div.append( renderer.domElement );
+		}
 
 		var geometry = new THREE.BoxGeometry( 62, 88, 0.4 );
 
@@ -106,7 +114,7 @@ var handle = query.observeChanges({
 
 						INTERSECTED = intersects[ 0 ].object;
 						INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-						INTERSECTED.material.emissive.setHex( 0xffffff );
+						INTERSECTED.material.emissive.setHex( 0x555555 );
 
 					}
 

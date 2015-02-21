@@ -18,10 +18,12 @@ Template.deck.events({
     "click #cardcollection .result-row": function () {
       // Set the checked property to the opposite of its current value
       DeckCollection.insert(this);
+      CardCollection.remove(this._id);
     },
     "click #deck .result-row": function () {
       // Set the checked property to the opposite of its current value
       DeckCollection.remove(this._id);
+      CardCollection.insert(this)
     }
 
 });
