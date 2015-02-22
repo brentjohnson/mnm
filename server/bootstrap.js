@@ -26,11 +26,11 @@ Meteor.startup(function () {
 		// Override for now
 		_.each(sets, function(set) {
 
-if (set.name == "Limited Edition Alpha") {
-
 			if (set.type == "Core" || set.type == "Expansion") {
 
 				console.log("Loading: "+set.name);
+
+				CardSet.insert(set);
 
 				cardsurl = "http://api.mtgdb.info/cards/?fields=id,name,cardSetName,type,rarity&cardSetName="+set.name;
 
@@ -44,7 +44,6 @@ if (set.name == "Limited Edition Alpha") {
 
 			}
 
-}
 		});
 
 
