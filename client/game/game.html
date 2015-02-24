@@ -9,9 +9,6 @@
 
 	<script>
 
-	Physijs.scripts.worker = '/js/physijs_worker.js';
-	Physijs.scripts.ammo = '/js/ammo.js';
-
 /*
 Card size 63mm x 88mm x 0.305mm (online)
 
@@ -20,11 +17,10 @@ TODO: Measure acutal height of 100 cards stack.
 THREE.ImageUtils.crossOrigin = '';
 
 var cube;
-var scene = new Physijs.Scene();
-scene.setGravity(new THREE.Vector3( 0, -98, 0 ))
+var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-var renderer = new THREE.WebGLRenderer({ antialias: true });
+var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x77C73E);
 
@@ -34,23 +30,16 @@ if ($div.children().length === 0) {
     $div.append(renderer.domElement);
 }
 
-var geometry = new THREE.BoxGeometry(62, 88, 1);
+var geometry = new THREE.BoxGeometry(62, 88, 0.4);
 
 var count = 0;
 var mouse = new THREE.Vector2();
 var INTERSECTED;
 var raycaster = new THREE.Raycaster();
-var black = new THREE.MeshLambertMaterial({ color: 0x000000 });
+var black = new THREE.MeshLambertMaterial({
+    color: 0x000000
+});
 
-/*
-		ground_material = Physijs.createMaterial(
-			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'images/rocks.jpg' ) }),
-			.8, // high friction
-			.4 // low restitution
-		);
-		ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
-		ground_material.map.repeat.set( 2.5, 2.5 );
-*/		
 
 var query = DeckCollection.find({
     user: Meteor.userId()
@@ -77,9 +66,8 @@ var handle = query.observeChanges({
             })
         ];
 
-        cube = new Physijs.BoxMesh(geometry, new THREE.MeshFaceMaterial(materials));
+        cube = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
 
-    	cube.rotation.x = -0.1;
 
         if (count % 10 === 0) {
             cube.rotation.y = Math.PI;
@@ -90,47 +78,25 @@ var handle = query.observeChanges({
         cube.position.y = Random.fraction() * 200 - 100;
         cube.position.z = count * 0.4;
 
-/* DOESN'T WORK 
-        cube.setAngularVelocity(
-//        	{x: (Random.fraction() - 0.5)*100, y: (Random.fraction() - 0.5)*100, z: (Random.fraction() - 0.5)*100}
-        	{x: 1, y: 2, z: 3}
-        );
-        cube.__dirtyRotation = true;
-*/
         scene.add(cube);
     }
 });
 
-
 var light = new THREE.AmbientLight(0xffffff);
 scene.add(light);
 
-camera.position.z = 400;
+camera.position.z = 200;
 
 document.addEventListener('mousemove', onDocumentMouseMove, false);
 
-
-
-
 function animate() {
 
-    scene.simulate();
-        renderer.render(scene, camera); //render();
     requestAnimationFrame(animate);
+
+    render();
 }
 
 animate();
-
-		ground = new Physijs.BoxMesh(
-			new THREE.BoxGeometry(1000, 100, 1000),
-			//new THREE.PlaneGeometry(50, 50),
-			black,
-			0 // mass
-		);
-//		ground.receiveShadow = true;
-		ground.position.y = -200;
-//		ground.rotation.x = Math.PI;
-		scene.add( ground );
 
 function onDocumentMouseMove(event) {
 
@@ -143,6 +109,15 @@ function onDocumentMouseMove(event) {
 
 function render() {
 
+    /*				theta += 0.1;
+
+    				camera.position.x = radius * Math.sin( THREE.Math.degToRad( theta ) );
+    				camera.position.y = radius * Math.sin( THREE.Math.degToRad( theta ) );
+    				camera.position.z = radius * Math.cos( THREE.Math.degToRad( theta ) );
+    				camera.lookAt( scene.position );
+
+    				camera.updateMatrixWorld();
+    */
     // find intersections
 
     raycaster.setFromCamera(mouse, camera);
