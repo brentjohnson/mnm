@@ -41,7 +41,7 @@ var black = new THREE.MeshLambertMaterial({
 });
 
 
-var query = DeckCollection.find({
+var query = Decks.find({
     user: Meteor.userId()
 });
 var handle = query.observeChanges({

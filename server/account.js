@@ -8,15 +8,15 @@ Accounts.onCreateUser(function(options, user) {
   _.each(["Forest","Swamp","Island","Plains","Mountain"], function(cardname){
 
     // Get array of "Forest"
-    cards = CardPool.find({name: cardname, cardSetName: "Limited Edition Alpha"}).fetch();
+    cards = Cards.find({name: cardname, cardSetName: "Limited Edition Alpha"}).fetch();
 
-    for (i=0; i<24; i++) {
+    for (i=0; i<12; i++) {
 
 	    card = _.omit(Random.choice(cards), "_id");
 
 	    card.user = user._id;
 
-	    CardCollection.insert(card);
+	    LeagueCards.insert(card);
 	}
 
   });
@@ -40,12 +40,12 @@ console.log("Set name:"+setname);
     // Get 1 "Rare" / "Mythic Rare"  (1 in 8 rares is mythic)
 	if (Math.random() > 0.875) {
 console.log("MYTHIC!");
-		cards = CardPool.find({cardSetName: setname, rarity: "Mythic Rare"}).fetch();
+		cards = Cards.find({cardSetName: setname, rarity: "Mythic Rare"}).fetch();
 	}
 
 	// If we didn't roll a mythic or there are no mythics, get a rare.
     if (cards.length == 0) {
-	   cards = CardPool.find({cardSetName: setname, rarity: "Rare"}).fetch();
+	   cards = Cards.find({cardSetName: setname, rarity: "Rare"}).fetch();
 	}
 
 console.log("  Selecting rares from pool of: "+cards.length);
@@ -57,12 +57,12 @@ console.log("  Selecting rares from pool of: "+cards.length);
 
 		    card.user = user._id;
 
-		    CardCollection.insert(card);
+		    LeagueCards.insert(card);
 		}
 	}
 
     // Get 3 "Uncommon"
-    cards = CardPool.find({cardSetName: setname, rarity: "Uncommon"}).fetch();
+    cards = Cards.find({cardSetName: setname, rarity: "Uncommon"}).fetch();
 
 console.log("  Selecting uncommons from pool of: "+cards.length);
 
@@ -73,12 +73,12 @@ console.log("  Selecting uncommons from pool of: "+cards.length);
 
 		    card.user = user._id;
 
-		    CardCollection.insert(card);
+		    LeagueCards.insert(card);
 		}
 	}
 
     // Get 11 "Common"
-    cards = CardPool.find({cardSetName: setname, rarity: "Common"}).fetch();
+    cards = Cards.find({cardSetName: setname, rarity: "Common"}).fetch();
 
 console.log("  Selecting commons from pool of: "+cards.length);
 
@@ -89,7 +89,7 @@ console.log("  Selecting commons from pool of: "+cards.length);
 
 		    card.user = user._id;
 
-		    CardCollection.insert(card);
+		    LeagueCards.insert(card);
 		}
 	}
 
