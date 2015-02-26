@@ -31,8 +31,8 @@ Template.game.events({
 console.log(event.which);
 
         zoomed = true;
-        campos = new THREE.Vector2().copy(camera.position);
-        camrot = new THREE.Vector2().copy(camera.rotation);
+        campos = new THREE.Vector3().copy(camera.position);
+        camrot = new THREE.Vector3().copy(camera.rotation);
 
         var position = INTERSECTED.object.position;
         var rotation = INTERSECTED.object.rotation;
@@ -40,13 +40,13 @@ console.log(event.which);
         new TWEEN.Tween( camera.position ).to( {
             x: position.x,
             y: position.y,
-            z: position.z + 100}, 600 )
+            z: position.z + 100}, 400 )
           .easing( TWEEN.Easing.Sinusoidal.InOut).start();
 
         new TWEEN.Tween( camera.rotation ).to( {
             x: rotation.x,
             y: rotation.y,
-            z: rotation.z }, 600 )
+            z: rotation.z }, 400 )
           .easing( TWEEN.Easing.Sinusoidal.InOut).start();
       }
     }
@@ -58,10 +58,10 @@ console.log(event.which);
 
     // z: zoom out
     if (event.which === 90) {
-      new TWEEN.Tween( camera.position ).to( campos, 600 )
+      new TWEEN.Tween( camera.position ).to( campos, 400 )
         .easing( TWEEN.Easing.Sinusoidal.InOut).start();
 
-      new TWEEN.Tween( camera.rotation ).to( camrot, 600 )
+      new TWEEN.Tween( camera.rotation ).to( camrot, 400 )
         .easing( TWEEN.Easing.Sinusoidal.InOut).start();
 
       zoomed = false; // BUT only when tween complete.
@@ -145,8 +145,8 @@ Template.game.rendered = function () {
           }
           cube.rotation.z = Random.fraction() - 0.5;
 
-          cube.position.x = Random.fraction() * 500 - 250;
-          cube.position.y = Random.fraction() * 200 - 100;
+          cube.position.x = Random.fraction() * 800 - 400;
+          cube.position.y = Random.fraction() * 400 - 200;
           cube.position.z = count * 0.4;
 
           scene.add(cube);
@@ -156,7 +156,7 @@ Template.game.rendered = function () {
   var light = new THREE.AmbientLight(0xffffff);
   scene.add(light);
 
-  camera.position.z = 200;
+  camera.position.z = 400;
 
   document.addEventListener('mousemove', onDocumentMouseMove, false);
 
