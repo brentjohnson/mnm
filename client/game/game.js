@@ -1,7 +1,7 @@
 Template.game.helpers({
 
     decklist: function () {
-    	return Decks.find({user: Meteor.userId()}, {sort: {name: 1, id: 1}});
+    	return Decks.find({}, {sort: {name: 1, id: 1}});
     }
     
 });

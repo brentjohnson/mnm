@@ -14,7 +14,7 @@ Accounts.onCreateUser(function(options, user) {
 
 	    card = _.omit(Random.choice(cards), "_id");
 
-	    card.user = user._id;
+	    card.userId = user._id;
 
 	    LeagueCards.insert(card);
 	}
@@ -55,7 +55,7 @@ console.log("  Selecting rares from pool of: "+cards.length);
 
 		    card = _.omit(Random.choice(cards), "_id");
 
-		    card.user = user._id;
+		    card.userId = user._id;
 
 		    LeagueCards.insert(card);
 		}
@@ -71,7 +71,7 @@ console.log("  Selecting uncommons from pool of: "+cards.length);
 
 		    card = _.omit(Random.choice(cards), "_id");
 
-		    card.user = user._id;
+		    card.userId = user._id;
 
 		    LeagueCards.insert(card);
 		}
@@ -87,7 +87,7 @@ console.log("  Selecting commons from pool of: "+cards.length);
 
 		    card = _.omit(Random.choice(cards), "_id");
 
-		    card.user = user._id;
+		    card.userId = user._id;
 
 		    LeagueCards.insert(card);
 		}

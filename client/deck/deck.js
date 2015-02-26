@@ -1,16 +1,16 @@
 Template.deck.helpers({
 
     cardpool: function () {
-        return LeagueCards.find({user: Meteor.userId()}, {sort: {name: 1, id: 1}});
+        return LeagueCards.find({userId: Meteor.userId()}, {sort: {name: 1, id: 1}});
     },
     decklist: function () {
-    	return Decks.find({user: Meteor.userId()}, {sort: {name: 1, id: 1}});
+    	return Decks.find({userId: Meteor.userId()}, {sort: {name: 1, id: 1}});
     },
     decksize: function () {
-    	return Decks.find({user: Meteor.userId()}, {sort: {name: 1, id: 1}}).count();
+    	return Decks.find({userId: Meteor.userId()}, {sort: {name: 1, id: 1}}).count();
     },
     collectionsize: function () {
-    	return LeagueCards.find({user: Meteor.userId()}, {sort: {name: 1, id: 1}}).count();
+    	return LeagueCards.find({userId: Meteor.userId()}, {sort: {name: 1, id: 1}}).count();
     }
 });
 
