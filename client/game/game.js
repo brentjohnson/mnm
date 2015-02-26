@@ -9,48 +9,78 @@ Template.game.helpers({
 Template.game.events({
   "click #game": function () {
 
-    if (INTERSECTED) {
-
-      var position = INTERSECTED.object.position;
-      var rotation = INTERSECTED.object.rotation;
-
-      new TWEEN.Tween( camera.position ).to( {
-          x: position.x,
-          y: position.y,
-          z: position.z + 150}, 600 )
-        .easing( TWEEN.Easing.Sinusoidal.InOut).start();
-
-      new TWEEN.Tween( camera.rotation ).to( {
-          x: rotation.x,
-          y: camera.rotation.y,
-          z: rotation.z }, 600 )
-        .easing( TWEEN.Easing.Sinusoidal.InOut).start();
+    // Drag and drop?
      
-  /* Tap/untap
-      if (INTERSECTED.object.rotation.z == 0) {
+  },
+
+  "keydown #game": function (event) {
+
+    // space: tap
+    if (event.which === 32) {
+      if (INTERSECTED.object.rotation.z === 0) {
         INTERSECTED.object.rotation.z = -Math.PI/4;
       } else {
         INTERSECTED.object.rotation.z = 0;
-      }
-    */
+      }      
     }
 
+    // z: zoom in
+    if (event.which === 90) {
 
+      if (INTERSECTED && !zoomed) {
+console.log(event.which);
 
+        zoomed = true;
+        campos = new THREE.Vector2().copy(camera.position);
+        camrot = new THREE.Vector2().copy(camera.rotation);
+
+        var position = INTERSECTED.object.position;
+        var rotation = INTERSECTED.object.rotation;
+
+        new TWEEN.Tween( camera.position ).to( {
+            x: position.x,
+            y: position.y,
+            z: position.z + 100}, 600 )
+          .easing( TWEEN.Easing.Sinusoidal.InOut).start();
+
+        new TWEEN.Tween( camera.rotation ).to( {
+            x: rotation.x,
+            y: rotation.y,
+            z: rotation.z }, 600 )
+          .easing( TWEEN.Easing.Sinusoidal.InOut).start();
+      }
+    }
+  },
+
+  "keyup #game": function (event) {
+ 
+ console.log('up: '+event.which);
+
+    // z: zoom out
+    if (event.which === 90) {
+      new TWEEN.Tween( camera.position ).to( campos, 600 )
+        .easing( TWEEN.Easing.Sinusoidal.InOut).start();
+
+      new TWEEN.Tween( camera.rotation ).to( camrot, 600 )
+        .easing( TWEEN.Easing.Sinusoidal.InOut).start();
+
+      zoomed = false; // BUT only when tween complete.
+
+    }
   }
 
-/* key detection not working
-  "keydown html": function (event) {
-    console.log('Keydown: '+event.charCode);
-  }
-*/
 
 });
 
 var INTERSECTED;
 var camera;
+var campos;
+var camrot;
+var zoomed = false;
   
 Template.game.rendered = function () {
+
+  $('#game').focus();
 
   /*
   Card size 63mm x 88mm x 0.305mm (online)
