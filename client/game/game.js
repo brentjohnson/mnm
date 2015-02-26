@@ -1,23 +1,55 @@
 Template.game.helpers({
 
-    decklist: function () {
-    	return Decks.find({}, {sort: {name: 1, id: 1}});
-    }
-    
+  decklist: function () {
+    return Decks.find({}, {sort: {name: 1, id: 1}});
+  }
+
 });
 
 Template.game.events({
-    "click #cardcollection .result-row": function () {
-      // Set the checked property to the opposite of its current value
-      Decks.insert(this);
-    },
-    "click #deck .result-row": function () {
-      // Set the checked property to the opposite of its current value
-      Decks.remove(this._id);
+  "click #game": function () {
+
+    if (INTERSECTED) {
+
+      var position = INTERSECTED.object.position;
+      var rotation = INTERSECTED.object.rotation;
+
+      new TWEEN.Tween( camera.position ).to( {
+          x: position.x,
+          y: position.y,
+          z: position.z + 150}, 600 )
+        .easing( TWEEN.Easing.Sinusoidal.InOut).start();
+
+      new TWEEN.Tween( camera.rotation ).to( {
+          x: rotation.x,
+          y: camera.rotation.y,
+          z: rotation.z }, 600 )
+        .easing( TWEEN.Easing.Sinusoidal.InOut).start();
+     
+  /* Tap/untap
+      if (INTERSECTED.object.rotation.z == 0) {
+        INTERSECTED.object.rotation.z = -Math.PI/4;
+      } else {
+        INTERSECTED.object.rotation.z = 0;
+      }
+    */
     }
+
+
+
+  }
+
+/* key detection not working
+  "keydown html": function (event) {
+    console.log('Keydown: '+event.charCode);
+  }
+*/
 
 });
 
+var INTERSECTED;
+var camera;
+  
 Template.game.rendered = function () {
 
   /*
@@ -25,12 +57,12 @@ Template.game.rendered = function () {
 
   TODO: Measure acutal height of 100 cards stack.
   */
-  
+
   THREE.ImageUtils.crossOrigin = '';
 
   var cube;
   var scene = new THREE.Scene();
-  var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
   var renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -46,7 +78,6 @@ Template.game.rendered = function () {
 
   var count = 0;
   var mouse = new THREE.Vector2();
-  var INTERSECTED;
   var raycaster = new THREE.Raycaster();
   var black = new THREE.MeshLambertMaterial({
       color: 0x000000
@@ -99,9 +130,11 @@ Template.game.rendered = function () {
 
   document.addEventListener('mousemove', onDocumentMouseMove, false);
 
-  function animate() {
+  function animate(time) {
 
       requestAnimationFrame(animate);
+
+      TWEEN.update( time );
 
       render();
   }
