@@ -51,7 +51,7 @@ Template.game.rendered = function() {
 
 MNM = (function() {
 
-  var INTERSECTED;
+  var INTERSECTED, SELECTED;
   var camera;
   var campos;
   var camrot;
@@ -62,15 +62,80 @@ MNM = (function() {
   var count;
   var mouse;
   var raycaster;
+  var offset;
+  var objects = [];
+  var container;
+  var plane;
 
 
   function onDocumentMouseMove(event) {
 
     event.preventDefault();
-
+    
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    //
+    raycaster.setFromCamera(mouse, camera);
 
+    if (SELECTED) {
+      var intersects = raycaster.intersectObject(plane);
+      SELECTED.position.copy(intersects[0].point.sub(offset));
+      return;
+    }
+
+    var intersects = raycaster.intersectObjects(objects);
+
+    if (intersects.length > 0) {
+
+      if (INTERSECTED != intersects[0].object) {
+
+        if (INTERSECTED) {
+          INTERSECTED.material.materials[4].emissive.setHex(0x000000);
+        }
+
+console.log(intersects[0].object);
+        INTERSECTED = intersects[0].object;
+//        INTERSECTED.currentHex = INTERSECTED.material.materials[4].color.getHex();
+        INTERSECTED.material.materials[4].emissive.setHex(0x444444);
+
+        plane.position.copy(INTERSECTED.position);
+//        plane.lookAt(camera.position);
+      }
+
+//      container.style.cursor = 'pointer';
+
+    } else {
+
+      if (INTERSECTED) {
+        INTERSECTED.material.materials[4].emissive.setHex(0x000000);
+      }
+      INTERSECTED = null;
+//      container.style.cursor = 'auto';
+    }
+  }
+
+  function onDocumentMouseDown(event) {
+    event.preventDefault();
+    var vector = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera);
+    var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+    var intersects = raycaster.intersectObjects(objects);
+    if (intersects.length > 0) {
+//      controls.enabled = false;
+      SELECTED = intersects[0].object;
+      var intersects = raycaster.intersectObject(plane);
+      offset.copy(intersects[0].point).sub(plane.position);
+//      container.style.cursor = 'move';
+    }
+  }
+
+  function onDocumentMouseUp(event) {
+    event.preventDefault();
+//    controls.enabled = true;
+    if (INTERSECTED) {
+      plane.position.copy(INTERSECTED.position);
+      SELECTED = null;
+    }
+//    container.style.cursor = 'auto';
   }
 
   function animate(time) {
@@ -79,52 +144,14 @@ MNM = (function() {
 
     TWEEN.update(time);
 
-    render();
-  }
-
-  function render() {
-
-    /*        theta += 0.1;
-
-            camera.position.x = radius * Math.sin( THREE.Math.degToRad( theta ) );
-            camera.position.y = radius * Math.sin( THREE.Math.degToRad( theta ) );
-            camera.position.z = radius * Math.cos( THREE.Math.degToRad( theta ) );
-            camera.lookAt( scene.position );
-
-            camera.updateMatrixWorld();
-    */
-    // find intersections
-
-    raycaster.setFromCamera(mouse, camera);
-
-    var intersects = raycaster.intersectObjects(scene.children);
-
-    if (intersects.length > 0) {
-
-      if (INTERSECTED != intersects[0]) {
-
-        if (INTERSECTED) INTERSECTED.object.material.materials[INTERSECTED.face.materialIndex].emissive.setHex(INTERSECTED.currentHex);
-
-        INTERSECTED = intersects[0];
-        INTERSECTED.currentHex = INTERSECTED.object.material.materials[INTERSECTED.face.materialIndex].emissive.getHex();
-        INTERSECTED.object.material.materials[INTERSECTED.face.materialIndex].emissive.setHex(0x555555);
-
-      }
-
-    } else {
-
-      if (INTERSECTED) INTERSECTED.object.material.materials[INTERSECTED.face.materialIndex].emissive.setHex(INTERSECTED.currentHex);
-
-      INTERSECTED = null;
-
-    }
-
     renderer.render(scene, camera);
+
+//    render();
   }
 
   return {
 
-    init: function () {
+    init: function() {
       THREE.ImageUtils.crossOrigin = '';
 
       scene = new THREE.Scene();
@@ -154,6 +181,7 @@ MNM = (function() {
 
       count = 0;
       mouse = new THREE.Vector2();
+      offset = new THREE.Vector3();
       raycaster = new THREE.Raycaster();
       var black = new THREE.MeshLambertMaterial({
         color: 0x000000
@@ -184,29 +212,40 @@ MNM = (function() {
 
           cube = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
 
-/*
-          if (count % 10 === 0) {
-            cube.rotation.y = Math.PI;
-          }
-          cube.rotation.z = Random.fraction() - 0.5;
+          /*
+                    if (count % 10 === 0) {
+                      cube.rotation.y = Math.PI;
+                    }
+                    cube.rotation.z = Random.fraction() - 0.5;
 
-          cube.position.x = Random.fraction() * 800 - 400;
-          cube.position.y = Random.fraction() * 400 - 200;
-          cube.position.z = count * 0.4;
-*/
+                    cube.position.x = Random.fraction() * 800 - 400;
+                    cube.position.y = Random.fraction() * 400 - 200;
+                    cube.position.z = count * 0.4;
+          */
           cube.position.x = count * 65 - 600;
           cube.position.z = count * 0.4;
 
           scene.add(cube);
+
+          objects.push(cube);
         }
       });
+
+      plane = new THREE.Mesh(
+          new THREE.PlaneBufferGeometry( 2000, 2000, 8, 8 ),
+          new THREE.MeshBasicMaterial( { color: 0x000000, opacity: 0.25, transparent: true } )
+      );
+      plane.visible = false;
+      scene.add( plane );
 
       var light = new THREE.AmbientLight(0xffffff);
       scene.add(light);
 
       camera.position.z = 400;
 
-      document.addEventListener('mousemove', onDocumentMouseMove, false);
+      document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+      document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+      document.addEventListener( 'mouseup', onDocumentMouseUp, false );
 
       animate();
     },
@@ -218,8 +257,8 @@ MNM = (function() {
         campos = new THREE.Vector3().copy(camera.position);
         camrot = new THREE.Vector3().copy(camera.rotation);
 
-        var position = INTERSECTED.object.position;
-        var rotation = INTERSECTED.object.rotation;
+        var position = INTERSECTED.position;
+        var rotation = INTERSECTED.rotation;
 
         new TWEEN.Tween(camera.position).to({
             x: position.x,
@@ -251,10 +290,10 @@ MNM = (function() {
 
     tap: function() {
 
-      if (INTERSECTED.object.rotation.z === 0) {
-        INTERSECTED.object.rotation.z = -Math.PI / 4;
+      if (INTERSECTED.rotation.z === 0) {
+        INTERSECTED.rotation.z = -Math.PI / 4;
       } else {
-        INTERSECTED.object.rotation.z = 0;
+        INTERSECTED.rotation.z = 0;
       }
     }
   };
