@@ -93,7 +93,6 @@ MNM = (function() {
           INTERSECTED.material.materials[4].emissive.setHex(0x000000);
         }
 
-console.log(intersects[0].object);
         INTERSECTED = intersects[0].object;
 //        INTERSECTED.currentHex = INTERSECTED.material.materials[4].color.getHex();
         INTERSECTED.material.materials[4].emissive.setHex(0x444444);
@@ -282,9 +281,10 @@ console.log(intersects[0].object);
         .easing(TWEEN.Easing.Sinusoidal.InOut).start();
 
       new TWEEN.Tween(camera.rotation).to(camrot, 400)
-        .easing(TWEEN.Easing.Sinusoidal.InOut).start();
-
-      zoomed = false; // BUT only when tween complete.
+        .easing(TWEEN.Easing.Sinusoidal.InOut)
+        .onComplete(function(){
+          zoomed = false;
+        }).start();
 
     },
 
