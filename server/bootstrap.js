@@ -72,6 +72,8 @@ Meteor.startup(function () {
 		status: 'recruiting'
   	});
 
+/* Doesn't work yet.
+
 	Leagues.insert({
   		name: 'Anything Goes! (Vintage)',
   		players: [],
@@ -82,7 +84,7 @@ Meteor.startup(function () {
 		startdate: Date.now(),
 		status: 'recruiting'
   	});
-
+*/
 	Leagues.insert({
   		name: 'First Visit to Ravnica (Ravnica Block)',
   		players: [],
