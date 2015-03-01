@@ -2,9 +2,9 @@ Router.onBeforeAction(function () {
   // all properties available in the route function
   // are also available here such as this.params
 
-  if (!Meteor.userId()) {
+  if (!Meteor.userId() && Router.current().location.get().path !== '/') {
     // if the user is not logged in, render the Login template
-    this.render('landing');
+    this.redirect('/');
   } else {
     // otherwise don't hold up the rest of hooks or our route/action function
     // from running
@@ -19,14 +19,13 @@ Router.map(function(){
       // if the user is not logged in, render the Login template
       this.render('landing');
     } else {
-      // otherwise don't hold up the rest of hooks or our route/action function
-      // from running
-      this.redirect('/deck');
+      this.render('leagueList');
     }
   });
 
   this.route('/landing');
   this.route('/deck');
   this.route('/game');
+  this.route('/league/:id');
 
 });

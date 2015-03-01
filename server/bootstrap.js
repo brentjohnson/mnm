@@ -11,7 +11,6 @@ Meteor.startup(function () {
 
 	if(result.statusCode==200) {
 		var sets = JSON.parse(result.content);
-		console.log("response received.");
 
 		// Override for now
 		_.each(sets, function(set) {
@@ -22,7 +21,8 @@ Meteor.startup(function () {
 
 				Sets.insert(set);
 
-				cardsurl = "http://api.mtgdb.info/cards/?fields=id,name,cardSetName,type,rarity&cardSetName="+set.name;
+//				cardsurl = "http://api.mtgdb.info/cards/?fields=id,name,cardSetName,type,rarity&cardSetName="+set.name;
+				cardsurl = "http://api.mtgdb.info/cards/?cardSetName="+set.name;
 
 				var cardsresult = Meteor.http.get(cardsurl, {timeout:30000});
 
@@ -44,5 +44,54 @@ Meteor.startup(function () {
 		throw new Meteor.Error(result.statusCode, errorJson.error);
 	}
 
+  }
+
+  if (Leagues.find().count() === 0) {
+ 
+ 	console.log('Inserting leagues');
+
+  	Leagues.insert({
+  		name: 'In The Beginning...',
+  		players: [],
+		sets: ['Limited Edition Alpha'],
+		startingpacks: 12,
+		startingbasicland: 12,  
+		ante: false,
+		startdate: Date.now(),
+		status: 'recruiting'
+  	});
+
+	Leagues.insert({
+  		name: 'Standardized Testing',
+  		players: [],
+		format: 'Standard',
+		startingpacks: 36,
+		startingbasicland: 12,  
+		ante: false,
+		startdate: Date.now(),
+		status: 'recruiting'
+  	});
+
+	Leagues.insert({
+  		name: 'Anything Goes!',
+  		players: [],
+		format: 'Vintage',
+		startingpacks: 72,
+		startingbasicland: 12,  
+		ante: false,
+		startdate: Date.now(),
+		status: 'recruiting'
+  	});
+
+	Leagues.insert({
+  		name: 'First Visit to Ravnica',
+  		players: [],
+		format: 'Ravnica Block',
+		startingpacks: 36,
+		startingbasicland: 12,  
+		ante: false,
+		startdate: Date.now(),
+		status: 'recruiting'
+  	});
   }
 });

@@ -29,4 +29,9 @@ Meteor.publish('decks', function() {
 
 });
 
+Meteor.publish('leagues', function() {
+	console.log('publishing leagues')
+	return Leagues.find({});
+});
+
 

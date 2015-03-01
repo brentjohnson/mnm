@@ -1,0 +1,39 @@
+<template name="leagueList">
+
+  {{> loginButtons}}
+
+  <h1>My Leagues</h1>
+
+    {{#each myLeagues}}
+    	{{> _myLeague}}
+    {{/each}}
+
+  <h1>Available Leagues</h1>
+
+    {{#each availableLeagues}}
+    	{{> _availableLeague}}
+    {{/each}}
+
+</template>
+
+<template name="_availableLeague">
+	<div>
+		Name: {{name}}<br/>
+		{{#if sets}}Sets: {{sets}}<br/>{{/if}}
+		{{#if format}}Format: {{format}}<br/>{{/if}}
+		Starting packs: {{startingpacks}}<br/>
+		Players: {{players}}<br/>
+		<button class="join">Join</button>
+	</div><br/>
+</template>
+
+<template name="_myLeague">
+	<div>
+		Name: {{name}}<br/>
+		{{#if sets}}Sets: {{sets}}<br/>{{/if}}
+		{{#if format}}Format: {{format}}<br/>{{/if}}
+		Starting packs: {{startingpacks}}<br/>
+		Players: {{players}}<br/>
+		<a href="/league/{{_id}}"><button class="play">Play</button></a>
+	</div><br/>
+</template>

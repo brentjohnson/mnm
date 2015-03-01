@@ -1,6 +1,6 @@
 // Support for playing D&D: Roll 3d6 for dexterity
 Accounts.onCreateUser(function(options, user) {
-
+return user;
   // Gimme some cards
 
   // Add 30 of each land.
