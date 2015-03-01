@@ -1,7 +1,10 @@
 Template.game.helpers({
 
   decklist: function() {
-    return Decks.find({}, {
+    return Decks.find({
+          userId: Meteor.userId(),
+          leagueId: Session.get('leagueId')
+        }, {
       sort: {
         name: 1,
         id: 1
@@ -186,7 +189,10 @@ MNM = (function() {
         color: 0x000000
       });
 
-      var query = Decks.find();
+      var query = Decks.find({
+          userId: Meteor.userId(),
+          leagueId: Session.get('leagueId')
+        });
       var handle = query.observeChanges({
         added: function(id, card) {
 

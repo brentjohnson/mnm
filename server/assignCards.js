@@ -2,21 +2,13 @@ assignCards = function (userId, leagueId) {
 
 	var baseQuery;
 	var query;
+	var cards;
 
 	// Fetch the league to see what cards to give
 	league = Leagues.find(leagueId).fetch()[0]; 
-console.log("Format: "+league.format);
-	if (league.format) {
-		baseQuery = { 
-// $or Restricted!?
-			formats: {
-				name: league.format,
-				legality: 'Legal'
-			}
-		 };
-	} else {
-		baseQuery = { cardSetName: {$in: league.sets}};
-	}
+
+	baseQuery = { cardSetId: {$in: league.sets}};
+
 	// Gimme some cards
 console.log("Base query: "+baseQuery);
 
@@ -27,13 +19,15 @@ console.log("Base query: "+baseQuery);
 	_.each(["Forest","Swamp","Island","Plains","Mountain"], function(cardname){
 
 		query.name = cardname;
-console.log("Query: "+query); 
+console.log("Land query:");
+console.log(query); 
 		// Get array of "Forest"
 		cards = Cards.find(query).fetch();
 console.log("Lands found: "+cards.length);
 		for (i=0; i<league.startingbasicland; i++) {
 
 		    card = _.omit(Random.choice(cards), "_id");
+console.log("Card: "+card.name+" ("+card.cardSetId+")");
 
 		    card.userId = userId;
 		    card.leagueId = leagueId;
@@ -62,16 +56,18 @@ console.log("MYTHIC!");
 	if (cards.length == 0) {
 		query = _.clone(baseQuery);
 		query.rarity = "Rare";
+console.log("Rare query:");
+console.log(query); 
 		cards = Cards.find(query).fetch();
 	}
 
 console.log("  Selecting rares from pool of: "+cards.length);
 
 	if (cards.length) {
-	    for (i=0; i<league.strtingpacks; i++) {
+	    for (i=0; i<league.startingpacks; i++) {
 
 		    card = _.omit(Random.choice(cards), "_id");
-
+console.log("Card: "+card.name+" ("+card.cardSetId+")");
 		    card.userId = userId;
 		    card.leagueId = leagueId;
 
@@ -82,14 +78,17 @@ console.log("  Selecting rares from pool of: "+cards.length);
 	// Get 3 "Uncommon"
 	query = _.clone(baseQuery);
 	query.rarity = "Uncommon";
+console.log("Uncommon query:");
+console.log(query); 
 	cards = Cards.find(query).fetch();
 
 console.log("  Selecting uncommons from pool of: "+cards.length);
 
 	if (cards.length) {
-	    for (i=0; i<league.strtingpacks*3; i++) {
+	    for (i=0; i<league.startingpacks*3; i++) {
 
 		    card = _.omit(Random.choice(cards), "_id");
+console.log("Card: "+card.name+" ("+card.cardSetId+")");
 
 		    card.userId = userId;
 		    card.leagueId = leagueId;
@@ -101,14 +100,17 @@ console.log("  Selecting uncommons from pool of: "+cards.length);
 	// Get 11 "Common"
 	query = _.clone(baseQuery);
 	query.rarity = "Common";
+console.log("Common query:");
+console.log(query); 
 	cards = Cards.find(query).fetch();
 
 console.log("  Selecting commons from pool of: "+cards.length);
 
 	if (cards.length) {
-	    for (i=0; i<league.strtingpacks*11; i++) {
+	    for (i=0; i<league.startingpacks*11; i++) {
 
 		    card = _.omit(Random.choice(cards), "_id");
+console.log("Card: "+card.name+" ("+card.cardSetId+")");
 
 		    card.userId = userId;
 		    card.leagueId = leagueId;
