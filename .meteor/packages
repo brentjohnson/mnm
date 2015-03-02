@@ -11,3 +11,4 @@ accounts-password
 http
 iron:router
 meteorhacks:kadira
+twbs:bootstrap

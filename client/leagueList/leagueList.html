@@ -16,24 +16,32 @@
 
 </template>
 
-<template name="_availableLeague">
-	<div>
-		Name: {{name}}<br/>
-		{{#if sets}}Sets: {{sets}}<br/>{{/if}}
-		{{#if format}}Format: {{format}}<br/>{{/if}}
-		Starting packs: {{startingpacks}}<br/>
-		Players: {{players}}<br/>
-		<button class="join">Join</button>
-	</div><br/>
-</template>
 
 <template name="_myLeague">
-	<div>
-		Name: {{name}}<br/>
-		{{#if sets}}Sets: {{sets}}<br/>{{/if}}
-		{{#if format}}Format: {{format}}<br/>{{/if}}
-		Starting packs: {{startingpacks}}<br/>
-		Players: {{players}}<br/>
-		<a href="/deck/{{_id}}"><button class="play">Play</button></a>
-	</div><br/>
+	<div class="panel panel-default" style="margin: 25px; width: 400px;">
+		<div class="panel-heading">{{name}}</div>
+		<div class="panel-body">
+			<ul>
+				<li>Sets: {{sets}}</li>
+				<li>Starting packs: {{startingpacks}}</li>
+				<li>Players: {{players}}</li>
+			</ul>
+			<a href="/deck/{{_id}}"><button class="play">Play</button></a>
+		</div>
+	</div>
+</template>
+
+
+<template name="_availableLeague">
+	<div class="panel panel-default" style="margin: 25px; width: 400px;">
+		<div class="panel-heading">{{name}}</div>
+		<div class="panel-body">
+			<ul>
+				<li>Sets: {{sets}}</li>
+				<li>Starting packs: {{startingpacks}}</li>
+				<li>Players: {{players}}</li>
+			</ul>
+			<button class="join">Join</button>
+		</div>
+	</div>
 </template>
