@@ -1,0 +1,13 @@
+<template name="_myLeague">
+	<div class="panel panel-default" style="margin: 25px; width: 400px;">
+		<div class="panel-heading">{{name}}</div>
+		<div class="panel-body">
+			<ul>
+				<li>Sets: {{sets}}</li>
+				<li>Starting packs: {{startingpacks}}</li>
+				<li>Players: {{players}}</li>
+			</ul>
+			<a href="/deck/{{_id}}"><button class="play">Play</button></a>
+		</div>
+	</div>
+</template>
