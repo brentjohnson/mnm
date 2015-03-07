@@ -24,18 +24,26 @@ Router.map(function(){
   });
 
   this.route('/landing');
+
   this.route('deck', {
     path: '/deck/:leagueId',
     data: function(){
       Session.set('leagueId', this.params.leagueId);
     }
   });
+
   this.route('/game', {
     path: '/game/:leagueId',
     data: function() {
       Session.set('leagueId', this.params.leagueId);
     }
   });
-  this.route('/league/:id');
+
+  this.route('/league', {
+    path: '/league/:leagueId',
+    data: function() {
+      return Leagues.findOne(this.params.leagueId);
+    }
+  });
 
 });
