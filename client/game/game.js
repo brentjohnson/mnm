@@ -34,6 +34,17 @@ Template.game.events({
     if (event.which === 90) {
       MNM.zoomIn();
     }
+
+    // r: reset - all cards to the deck
+    if (event.which === 82) {
+      MNM.reset();
+    }
+
+    // f: flip - flip card over
+    if (event.which === 70) {
+      MNM.flip();
+    }
+
   },
 
   "keyup #game": function(event) {
@@ -193,7 +204,9 @@ MNM = (function() {
           userId: Meteor.userId(),
           leagueId: Session.get('leagueId')
         });
+
       var handle = query.observeChanges({
+
         added: function(id, card) {
 
           count++;
@@ -217,19 +230,16 @@ MNM = (function() {
 
           cube = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
 
-          /*
-                    if (count % 10 === 0) {
-                      cube.rotation.y = Math.PI;
-                    }
-                    cube.rotation.z = Random.fraction() - 0.5;
+          cube.rotation.z = Random.fraction() - 0.5;
 
-                    cube.position.x = Random.fraction() * 800 - 400;
-                    cube.position.y = Random.fraction() * 400 - 200;
-                    cube.position.z = count * 0.4;
-          */
-          cube.position.x = count * 65 - 600;
+          cube.position.x = Random.fraction() * 800 - 400;
+          cube.position.y = Random.fraction() * 400 - 200;
           cube.position.z = count * 0.4;
 
+/*
+          cube.position.x = count * 65 - 600;
+          cube.position.z = count * 0.4;
+        */
           scene.add(cube);
 
           objects.push(cube);
@@ -296,11 +306,39 @@ MNM = (function() {
 
     tap: function() {
 
-      if (INTERSECTED.rotation.z === 0) {
-        INTERSECTED.rotation.z = -Math.PI / 4;
-      } else {
-        INTERSECTED.rotation.z = 0;
-      }
+      var orientation = INTERSECTED.rotation.z ? 0 : -Math.PI/4;
+
+      new TWEEN.Tween(INTERSECTED.rotation).to({z: orientation}, 400)
+        .easing(TWEEN.Easing.Sinusoidal.InOut).start();
+
+    },
+
+    reset: function() {
+
+      var height = 0;
+
+      // for every card,
+      _.each(_.shuffle(objects), function(card) {
+
+        height++;
+
+        new TWEEN.Tween(card.position).to({x: 0, y: 0, z: height * 0.4}, 1000)
+        .easing(TWEEN.Easing.Sinusoidal.InOut).start();
+
+        new TWEEN.Tween(card.rotation).to({x: 0, y: Math.PI, z: 0}, 1000)
+        .easing(TWEEN.Easing.Sinusoidal.InOut).start();
+
+      });
+
+    },
+
+    flip: function() {
+
+      var orientation = INTERSECTED.rotation.y ? 0 : Math.PI;
+
+      new TWEEN.Tween(INTERSECTED.rotation).to({y: orientation}, 400)
+        .easing(TWEEN.Easing.Sinusoidal.InOut).start();
+
     }
   };
 })();
