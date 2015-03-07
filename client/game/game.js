@@ -105,11 +105,13 @@ MNM = (function() {
 
         if (INTERSECTED) {
           INTERSECTED.material.materials[4].emissive.setHex(0x000000);
+          INTERSECTED.material.materials[5].emissive.setHex(0x000000);
         }
 
         INTERSECTED = intersects[0].object;
 //        INTERSECTED.currentHex = INTERSECTED.material.materials[4].color.getHex();
         INTERSECTED.material.materials[4].emissive.setHex(0x444444);
+        INTERSECTED.material.materials[5].emissive.setHex(0x444444);
 
         plane.position.copy(INTERSECTED.position);
 //        plane.lookAt(camera.position);
@@ -121,6 +123,7 @@ MNM = (function() {
 
       if (INTERSECTED) {
         INTERSECTED.material.materials[4].emissive.setHex(0x000000);
+        INTERSECTED.material.materials[5].emissive.setHex(0x000000);
       }
       INTERSECTED = null;
 //      container.style.cursor = 'auto';
@@ -284,7 +287,7 @@ MNM = (function() {
 
         new TWEEN.Tween(camera.rotation).to({
             x: rotation.x,
-            y: rotation.y,
+          //  y: rotation.y,
             z: rotation.z
           }, 400)
           .easing(TWEEN.Easing.Sinusoidal.InOut).start();
