@@ -225,6 +225,8 @@ MNM = (function() {
             black,
             new THREE.MeshLambertMaterial({
               map: THREE.ImageUtils.loadTexture('http://api.mtgdb.info/content/card_images/' + card.id + '.jpeg')
+// Hi-res
+//              map: THREE.ImageUtils.loadTexture('http://api.mtgdb.info/content/hi_res_card_images/' + card.id + '.jpg')
             }),
             new THREE.MeshLambertMaterial({
               map: THREE.ImageUtils.loadTexture('/img/back.jpeg')
@@ -265,6 +267,10 @@ MNM = (function() {
       document.addEventListener( 'mousedown', onDocumentMouseDown, false );
       document.addEventListener( 'mouseup', onDocumentMouseUp, false );
 
+      // Save initial camera pos/rot for "zoom out"
+      campos = new THREE.Vector3().copy(camera.position);
+      camrot = new THREE.Vector3().copy(camera.rotation);
+
       animate();
     },
 
@@ -272,8 +278,8 @@ MNM = (function() {
       if (INTERSECTED && !zoomed) {
 
         zoomed = true;
-        campos = new THREE.Vector3().copy(camera.position);
-        camrot = new THREE.Vector3().copy(camera.rotation);
+//        campos = new THREE.Vector3().copy(camera.position);
+//        camrot = new THREE.Vector3().copy(camera.rotation);
 
         var position = INTERSECTED.position;
         var rotation = INTERSECTED.rotation;
@@ -302,6 +308,7 @@ MNM = (function() {
       new TWEEN.Tween(camera.rotation).to(camrot, 400)
         .easing(TWEEN.Easing.Sinusoidal.InOut)
         .onComplete(function(){
+// This still gets confused sometimes.
           zoomed = false;
         }).start();
 

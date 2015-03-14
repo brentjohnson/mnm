@@ -29,6 +29,7 @@ Router.map(function(){
     path: '/deck/:leagueId',
     data: function(){
       Session.set('leagueId', this.params.leagueId);
+      Meteor.subscribe("leaguecards", this.params.leagueId);
     }
   });
 
