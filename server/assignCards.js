@@ -1,3 +1,28 @@
+/*
+  Assign initial cards to a player.
+  	For now, pulls random cards from all cards in all sets (valid for the league)
+  	Not sure how to deal with mythics...
+  		if all sets have mythics, not a problem, else, problem (Vintage)
+  	Probably should chose a random set and then give a whole "pack" from that set
+  		then easier to deal with: Either that set has mythics or it doesn't
+  	BUT then you get more cards from small expansions in a block.
+  		maybe count all the cards from all the sets then use that for % chance to get a pack from that set
+
+  	THS: 249 cards
+  	BNG: 165 cards
+  	JOU: 165 cards
+
+  	So for this block (579 cards) odd to get a pack from a given set
+
+	THS: 43.0%
+	BNG: 28.5%
+	JOU: 28.5%
+
+	Implementations: just pick a random card from all cards in the league.  Whatever set
+	that card is from... that's the pack.
+
+	db.yourCollection.find().limit(-1).skip(yourRandomNumber).next()
+*/
 assignCards = function (userId, leagueId) {
 
 	var baseQuery;
@@ -5,7 +30,7 @@ assignCards = function (userId, leagueId) {
 	var cards;
 
 	// Fetch the league to see what cards to give
-	league = Leagues.find(leagueId).fetch()[0]; 
+	league = Leagues.findOne(leagueId); 
 
 	baseQuery = { cardSetId: {$in: league.sets}};
 
@@ -16,7 +41,7 @@ console.log("Base query: "+baseQuery);
 	query = _.clone(baseQuery);
 
 	// For each type of land
-	_.each(["Forest","Swamp","Island","Plains","Mountain"], function(cardname){
+	_.each(["Forest","Swamp","Island","Plains","Mountain"], function(cardname) {
 
 		query.name = cardname;
 console.log("Land query:");
