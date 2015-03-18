@@ -53,6 +53,7 @@ Meteor.startup(function () {
   	Leagues.insert({
   		name: 'In The Beginning... (Alpha only)',
   		players: [],
+  		round: 0,
 		sets: ['LEA'],
 		startingpacks: 12,
 		startingbasicland: 12,  
@@ -64,6 +65,7 @@ Meteor.startup(function () {
 	Leagues.insert({
   		name: 'Standardized Testing (Standard)',
   		players: [],
+  		round: 0,
 		sets: ['M15', 'THS', 'BNG', 'JOU', 'KTK', 'FRF', 'DTK'],
 		startingpacks: 36,
 		startingbasicland: 12,  
@@ -77,6 +79,7 @@ Meteor.startup(function () {
 	Leagues.insert({
   		name: 'Anything Goes! (Vintage)',
   		players: [],
+  		round: 0,
 		sets: [],
 		startingpacks: 72,
 		startingbasicland: 12,  
@@ -88,6 +91,7 @@ Meteor.startup(function () {
 	Leagues.insert({
   		name: 'First Visit to Ravnica (Ravnica Block)',
   		players: [],
+  		round: 0,
 		sets: ['RAV', 'GPT', 'DIS'],
 		startingpacks: 36,
 		startingbasicland: 12,  
