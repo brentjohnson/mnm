@@ -208,6 +208,9 @@ MNM = (function() {
           leagueId: Session.get('leagueId')
         });
 
+      var backTexture = THREE.ImageUtils.loadTexture('/img/back.jpeg');
+      backTexture.minFilter = THREE.LinearFilter;
+
       var handle = query.observeChanges({
 
         added: function(id, card) {
@@ -217,6 +220,11 @@ MNM = (function() {
           console.log("Adding: " + card.name);
 
           // material
+          // Hi-res
+//              THREE.ImageUtils.loadTexture('http://api.mtgdb.info/content/hi_res_card_images/' + card.id + '.jpg')
+
+          var tex = THREE.ImageUtils.loadTexture('http://api.mtgdb.info/content/card_images/' + card.id + '.jpeg');
+          tex.minFilter = THREE.LinearFilter;
 
           var materials = [
             black,
@@ -224,12 +232,10 @@ MNM = (function() {
             black,
             black,
             new THREE.MeshLambertMaterial({
-              map: THREE.ImageUtils.loadTexture('http://api.mtgdb.info/content/card_images/' + card.id + '.jpeg')
-// Hi-res
-//              map: THREE.ImageUtils.loadTexture('http://api.mtgdb.info/content/hi_res_card_images/' + card.id + '.jpg')
+              map: tex
             }),
             new THREE.MeshLambertMaterial({
-              map: THREE.ImageUtils.loadTexture('/img/back.jpeg')
+              map: backTexture
             })
           ];
 
