@@ -51,6 +51,19 @@ Meteor.startup(function () {
  	console.log('Inserting leagues');
 
   	Leagues.insert({
+  		name: 'In the xone. (Testing)',
+  		players: [],
+  		round: 0,
+		sets: ['ICE', 'ALL', 'CSP'],
+		startingpacks: 8,
+		startingbasicland: 12,  
+		ante: false,
+		startdate: Date.now(),
+		mode: 'Deck Building',
+		joinable: true
+  	});
+
+  	Leagues.insert({
   		name: 'In The Beginning... (Alpha only)',
   		players: [],
   		round: 0,
@@ -59,7 +72,8 @@ Meteor.startup(function () {
 		startingbasicland: 12,  
 		ante: false,
 		startdate: Date.now(),
-		status: 'recruiting'
+		mode: 'Deck Building',
+		joinable: true
   	});
 
 	Leagues.insert({
@@ -71,7 +85,8 @@ Meteor.startup(function () {
 		startingbasicland: 12,  
 		ante: false,
 		startdate: Date.now(),
-		status: 'recruiting'
+		mode: 'Deck Building',
+		joinable: true
   	});
 
 /* Doesn't work yet.
@@ -97,7 +112,8 @@ Meteor.startup(function () {
 		startingbasicland: 12,  
 		ante: false,
 		startdate: Date.now(),
-		status: 'recruiting'
+		mode: 'Deck Building',
+		joinable: true
   	});
   }
 });
