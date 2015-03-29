@@ -1,38 +1,48 @@
 Template.deck.helpers({
 
-    cardpool: function () {
+    cardpool: function() {
         return LeagueCards.find({
             inDeck: false
-        }, {sort: {name: 1, id: 1}});
+        }, {
+            sort: {
+                name: 1,
+                id: 1
+            }
+        });
     },
-    decklist: function () {
+    decklist: function() {
         return LeagueCards.find({
             inDeck: true
-        }, {sort: {name: 1, id: 1}});
+        }, {
+            sort: {
+                name: 1,
+                id: 1
+            }
+        });
     },
-    decksize: function () {
+    decksize: function() {
         return LeagueCards.find({
             inDeck: true
         }).count();
     },
-    collectionsize: function () {
+    collectionsize: function() {
         return LeagueCards.find({
             inDeck: false
         }).count();
     },
-    leagueId: function () {
-      return Session.get('leagueId');
+    leagueId: function() {
+        return Session.get('leagueId');
     }
 });
 
 Template.deck.events({
-    "click #cardcollection .result-row": function () {
-      // Set the checked property to the opposite of its current value
-      Meteor.call("cardInDeck", this._id, true);
+    "click #cardcollection .result-row": function() {
+        // Set the checked property to the opposite of its current value
+        Meteor.call("cardInDeck", this._id, true);
     },
-    "click #deck .result-row": function () {
-      // Set the checked property to the opposite of its current value
-      Meteor.call("cardInDeck", this._id, false);
+    "click #deck .result-row": function() {
+        // Set the checked property to the opposite of its current value
+        Meteor.call("cardInDeck", this._id, false);
     }
 
 });

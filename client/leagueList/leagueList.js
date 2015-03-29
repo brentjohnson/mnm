@@ -1,19 +1,26 @@
 Template.leagueList.helpers({
 
-    myLeagues: function () {
-        return Leagues.find({players: Meteor.userId()});
+    myLeagues: function() {
+        return Leagues.find({
+            players: Meteor.userId()
+        });
     },
-    availableLeagues: function () {
-    	return Leagues.find({players: {$ne: Meteor.userId()}, joinable: true});
+    availableLeagues: function() {
+        return Leagues.find({
+            players: {
+                $ne: Meteor.userId()
+            },
+            joinable: true
+        });
     }
 });
 
 Template._availableLeague.events({
-	"click .join": function () {
+    "click .join": function() {
 
-		Meteor.call('joinLeague', this._id);
+        Meteor.call('joinLeague', this._id);
 
-//		this.players.push(Meteor.userId());
-//		Leagues.update(this._id,{$set: {players: this.players}});
+        //		this.players.push(Meteor.userId());
+        //		Leagues.update(this._id,{$set: {players: this.players}});
     }
 })
