@@ -39,8 +39,8 @@ Meteor.methods({
 
   cardInDeck: function (leagueCardId, inDeck) {
 
-    // TODO: Validate that this card belongs to current user.
-    LeagueCards.update(leagueCardId, { $set: { inDeck: inDeck}});
+    // userId in where clause for security
+    LeagueCards.update({_id: leagueCardId, userId: Meteor.userId()}, { $set: { inDeck: inDeck}});
 
   }
 
