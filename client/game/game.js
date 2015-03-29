@@ -1,17 +1,4 @@
 Template.game.helpers({
-
-  decklist: function() {
-    return Decks.find({
-          userId: Meteor.userId(),
-          leagueId: Session.get('leagueId')
-        }, {
-      sort: {
-        name: 1,
-        id: 1
-      }
-    });
-  }
-
 });
 
 Template.game.events({
@@ -203,9 +190,8 @@ MNM = (function() {
         color: 0x000000
       });
 
-      var query = Decks.find({
-          userId: Meteor.userId(),
-          leagueId: Session.get('leagueId')
+      var query = LeagueCards.find({
+          inDeck: true
         });
 
       var backTexture = THREE.ImageUtils.loadTexture('/img/back.jpeg');

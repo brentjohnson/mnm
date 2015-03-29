@@ -35,6 +35,13 @@ Meteor.methods({
   	assignCards(Meteor.userId(), leagueId);
 
     return "some return value";
+  },
+
+  cardInDeck: function (leagueCardId, inDeck) {
+
+    // TODO: Validate that this card belongs to current user.
+    LeagueCards.update(leagueCardId, { $set: { inDeck: inDeck}});
+
   }
 
 });

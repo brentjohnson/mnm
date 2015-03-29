@@ -56,6 +56,7 @@ console.log("Card: "+card.name+" ("+card.cardSetId+")");
 
 		    card.userId = userId;
 		    card.leagueId = leagueId;
+		    card.inDeck = false;
 
 		    LeagueCards.insert(card);
 		}
@@ -95,6 +96,7 @@ console.log("  Selecting rares from pool of: "+cards.length);
 console.log("Card: "+card.name+" ("+card.cardSetId+")");
 		    card.userId = userId;
 		    card.leagueId = leagueId;
+		    card.inDeck = false;
 
 		    LeagueCards.insert(card);
 		}
@@ -117,6 +119,7 @@ console.log("Card: "+card.name+" ("+card.cardSetId+")");
 
 		    card.userId = userId;
 		    card.leagueId = leagueId;
+		    card.inDeck = false;
 
 		    LeagueCards.insert(card);
 		}
@@ -139,6 +142,7 @@ console.log("Card: "+card.name+" ("+card.cardSetId+")");
 
 		    card.userId = userId;
 		    card.leagueId = leagueId;
+		    card.inDeck = false;
 
 		    LeagueCards.insert(card);
 		}

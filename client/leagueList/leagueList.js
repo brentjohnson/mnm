@@ -4,7 +4,7 @@ Template.leagueList.helpers({
         return Leagues.find({players: Meteor.userId()});
     },
     availableLeagues: function () {
-    	return Leagues.find({players: {$ne: Meteor.userId()}});
+    	return Leagues.find({players: {$ne: Meteor.userId()}, joinable: true});
     }
 });
 
