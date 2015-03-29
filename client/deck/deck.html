@@ -14,10 +14,20 @@
     </div>
 
 	<div id="deck" class="result-table">
-	  Deck List ({{decksize}}) <a href="/game/{{leagueId}}">PLAYTEST!</a>
-      {{#each decklist}}
-        {{> card}}
-      {{/each}}
+	  Deck List ({{decksize}}) 
+    
+    {{#if deckSaved}}
+      Deck saved.  Can't edit.
+    {{else}}
+      <button class="saveDeck">Save Deck</button>
+    {{/if}}
+    
+    <a href="/game/{{leagueId}}">PLAYTEST!</a>
+    
+    {{#each decklist}}
+      {{> card}}
+    {{/each}}
+
     </div>
 
 	<img id="zoom-image" style="position: fixed; right: 20px; top: 40px;">

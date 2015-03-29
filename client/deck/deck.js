@@ -32,17 +32,40 @@ Template.deck.helpers({
     },
     leagueId: function() {
         return Session.get('leagueId');
+    },
+    deckSaved: function() {
+        console.log('dsl: ' + Leagues.findOne(Session.get('leagueId')).deckSaveList);
+
+        return _.indexOf(Leagues.findOne(Session.get('leagueId')).deckSaveList, Meteor.userId()) !== -1;
     }
 });
 
 Template.deck.events({
     "click #cardcollection .result-row": function() {
         // Set the checked property to the opposite of its current value
-        Meteor.call("cardInDeck", this._id, true);
+        if (_.indexOf(Leagues.findOne(Session.get('leagueId')).deckSaveList, Meteor.userId()) === -1) {
+            Meteor.call("cardInDeck", this._id, true);
+        } else {
+            alert("You can't modify a saved deck.")
+        }
     },
     "click #deck .result-row": function() {
         // Set the checked property to the opposite of its current value
-        Meteor.call("cardInDeck", this._id, false);
+        if (_.indexOf(Leagues.findOne(Session.get('leagueId')).deckSaveList, Meteor.userId()) === -1) {
+            Meteor.call("cardInDeck", this._id, false);
+        } else {
+            alert("You can't modify a saved deck.")
+        }
+    },
+    "click .saveDeck": function() {
+
+        if (LeagueCards.find({
+                inDeck: true
+            }).count() >= 60) {
+            Meteor.call('saveDeck', Session.get('leagueId'));
+        } else {
+            alert('Must have 60 or more cards to save.')
+        }
     }
 
 });

@@ -63,7 +63,8 @@ Meteor.startup(function() {
             ante: false,
             startdate: Date.now(),
             mode: 'Deck Building',
-            joinable: true
+            joinable: true,
+            deckSaveList: []
         });
 
         Leagues.insert({
@@ -76,7 +77,8 @@ Meteor.startup(function() {
             ante: false,
             startdate: Date.now(),
             mode: 'Deck Building',
-            joinable: true
+            joinable: true,
+            deckSaveList: []
         });
 
         Leagues.insert({
@@ -89,7 +91,8 @@ Meteor.startup(function() {
             ante: false,
             startdate: Date.now(),
             mode: 'Deck Building',
-            joinable: true
+            joinable: true,
+            deckSaveList: []
         });
 
         /* Doesn't work yet.
@@ -116,7 +119,8 @@ Meteor.startup(function() {
             ante: false,
             startdate: Date.now(),
             mode: 'Deck Building',
-            joinable: true
+            joinable: true,
+            deckSaveList: []
         });
     }
 });

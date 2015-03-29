@@ -11,7 +11,7 @@ Meteor.methods({
         check(leagueId, String);
 
         // league exists
-        league = Leagues.find(leagueId).fetch()[0];
+        league = Leagues.findOne(leagueId);
 
         if (!league) {
             throw new Meteor.Error("not-found", "League ID not found.");
@@ -53,6 +53,31 @@ Meteor.methods({
             }
         });
 
+    },
+
+    saveDeck: function(leagueId) {
+
+        var league = Leagues.findOne(leagueId);
+
+        league.deckSaveList = league.deckSaveList || [];
+
+        if (_.indexOf(league.deckSaveList, Meteor.userId()) !== -1) {
+            throw new Meteor.Error("already-saved", "Deck already saved for this league.");
+        }
+
+        league.deckSaveList.push(Meteor.userId());
+
+        Leagues.update(leagueId, league);
+
+        // If everyone saved their deck, then move to next phase.
+        if (saveList.count === league.players.count) {
+            // Call a function to change mode to "Playing"
+            //  Which will set mode, assign matches, etc.
+
+            // Temporary...
+            league.mode = "Playing";
+            Leagues.update(leagueId, league);
+        }
     }
 
 });
