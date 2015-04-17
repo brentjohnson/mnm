@@ -232,10 +232,6 @@ MNM = (function() {
                     cube.position.y = Random.fraction() * 400 - 200;
                     cube.position.z = count * 0.4;
 
-                    /*
-                              cube.position.x = count * 65 - 600;
-                              cube.position.z = count * 0.4;
-                            */
                     scene.add(cube);
 
                     objects.push(cube);
